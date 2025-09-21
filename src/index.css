@@ -12,11 +12,14 @@ html {
 }
 
 body {
-  background-color: #0c0c0c; /* базовый тёмный фон */
-  background-image: radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-                    radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-  background-attachment: fixed;
-  background-size: cover;
+  background-color: #0c0c0c;
+  background-image: url("data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'>
+    <circle cx='100' cy='100' r='80' stroke='%233b82f6' stroke-width='2' fill='none'/>
+    <circle cx='100' cy='100' r='40' stroke='%238b5cf6' stroke-width='2' fill='none'/>
+  </svg>");
+  background-repeat: repeat;
+  background-size: 200px 200px;
   color: #f8fafc;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
