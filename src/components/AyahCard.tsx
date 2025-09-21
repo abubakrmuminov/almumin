@@ -9,22 +9,22 @@ import {
   Check,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { Ayah, Bookmark, Settings } from "../types/quran";
 
-interface AyahCardProps {
-  ayah: any;
-  translation: any;
+export interface AyahCardProps {
+  ayah: Ayah;
+  translation: Ayah;
   surahNumber: number;
   surahName: string;
-  settings: any;
+  settings: Settings;
   isBookmarked: boolean;
-  onToggleBookmark: (bookmark: any) => void;
+  onToggleBookmark: (bookmark: Bookmark) => void;
   currentAyah: number | null;
   onPlay: () => void;
   onStop: () => void;
 
-  // убираем fontSizeClass и заменяем на два отдельных
-  arabicFontClass: string;
-  translationFontClass: string;
+  arabicFontClass?: string;       // необязательный
+  translationFontClass?: string;  // необязательный
 }
 
 export const AyahCard: React.FC<AyahCardProps> = ({
@@ -47,10 +47,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
   // Автоскролл к текущему аяту
   useEffect(() => {
     if (isThisPlaying && cardRef.current) {
-      cardRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+      cardRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [isThisPlaying]);
 
@@ -61,7 +58,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         `${ayah.text}\n\n${translation.text} \n(${surahName} ${ayah.numberInSurah})`
       );
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // через 2 секунды вернуть обратно
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Не удалось скопировать", err);
     }
@@ -75,25 +72,23 @@ export const AyahCard: React.FC<AyahCardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className={`relative rounded-xl p-6 sm:p-8 transition-all duration-500 shadow-lg border
-        ${
-          isThisPlaying
-            ? "border-[#d4af37]/60 bg-gradient-to-br from-[#1a1818] to-[#0f0e0e]"
-            : "border-[#1a1818] bg-[#0f0e0e]"
-        }`}
+      className={`relative rounded-xl p-6 sm:p-8 transition-all duration-500 shadow-lg border ${
+        isThisPlaying
+          ? "border-[#d4af37]/60 bg-gradient-to-br from-[#1a1818] to-[#0f0e0e]"
+          : "border-[#1a1818] bg-[#0f0e0e]"
+      }`}
     >
       {/* Индикатор проигрывания */}
       {isThisPlaying && (
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#d4af37]/70 rounded-t-xl"></div>
       )}
 
-      {/* Верхняя часть */}
+      {/* Верхняя часть: номер и кнопки */}
       <div className="flex items-start justify-between mb-6">
         {/* Номер аята */}
         <div className="flex items-center gap-3">
           <div
-            className={`flex items-center justify-center w-10 h-10 rounded-lg text-sm font-bold border
-            ${
+            className={`flex items-center justify-center w-10 h-10 rounded-lg text-sm font-bold border ${
               isThisPlaying
                 ? "bg-[#1a1818] text-[#d4af37] border-[#d4af37]"
                 : "bg-[#0f0e0e] text-gray-400 border-[#1a1818]"
@@ -194,14 +189,14 @@ export const AyahCard: React.FC<AyahCardProps> = ({
 
       {/* Арабский текст */}
       <p
-        className={`font-arabic leading-loose ${arabicFontClass} text-right`}
+        className={`font-arabic leading-loose ${arabicFontClass || "text-4xl"} text-right`}
         dir="rtl"
       >
         {ayah.text}
       </p>
 
       {/* Перевод */}
-      <p className={`text-gray-300 leading-relaxed ${translationFontClass}`}>
+      <p className={`text-gray-300 leading-relaxed ${translationFontClass || "text-base"}`}>
         {translation.text}
       </p>
 

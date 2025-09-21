@@ -32,7 +32,12 @@ export const Settings: React.FC<SettingsProps> = ({
     { id: "ar.sudais", name: "Abdul Rahman As-Sudais" },
   ];
 
-  const fontSizes = [
+  // Font Sizes
+  const fontSizes: {
+    id: "small" | "medium" | "large";
+    name: string;
+    value: number;
+  }[] = [
     { id: "small", name: "Small", value: 18 },
     { id: "medium", name: "Medium", value: 24 },
     { id: "large", name: "Large", value: 32 },
@@ -155,7 +160,7 @@ export const Settings: React.FC<SettingsProps> = ({
                     onClick={() =>
                       onSettingsChange({
                         ...settings,
-                        fontSize: fItem.id,
+                        fontSize: fItem.id, // ✅ теперь корректно
                         fontSizeValue: fItem.value,
                       })
                     }

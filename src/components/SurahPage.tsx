@@ -265,7 +265,6 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
             className="w-full sm:w-11/12 md:w-3/4 lg:w-2/3"
           >
             <AyahCard
-              fontSizeClass={fontSizeClass}
               ayah={ayah}
               translation={translationData.ayahs[index]}
               surahNumber={surahNumber}
