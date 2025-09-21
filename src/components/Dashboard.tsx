@@ -186,19 +186,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                   Ayah {ayahOfTheDay.numberInSurah}
                 </p>
                 <div className="flex justify-center mt-4">
-                  <motion.button
-                    onClick={() =>
-                      navigate(`/surah/${ayahOfTheDay.numberInSurah}`, {
-                        state: { fromAyahOfTheDay: true },
-                      })
-                    }
-                    className="flex items-center justify-center px-4 py-2 text-black transition-all bg-yellow-500 rounded-lg hover:bg-yellow-400"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <BookOpen className="w-4 h-4 mr-1" />
-                    <span className="text-sm font-medium">Read</span>
-                  </motion.button>
+                  
                 </div>
               </div>
             </div>
