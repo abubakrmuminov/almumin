@@ -35,8 +35,8 @@ function App() {
 
   return (
     <div
-      className={`flex flex-col min-h-screen transition-colors ${settings.theme} ${settings.fontSize}`}
-    >
+  className={`flex flex-col min-h-screen transition-colors ${settings.fontSize}`}
+>
       <Navigation
         isDark={settings.theme === "dark"}
         onToggleTheme={handleToggleTheme}
