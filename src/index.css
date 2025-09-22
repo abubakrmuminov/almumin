@@ -87,6 +87,12 @@ body {
   50% { transform: translateY(-10px); }
 }
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* Pulse glow effect */
 .pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite alternate;
