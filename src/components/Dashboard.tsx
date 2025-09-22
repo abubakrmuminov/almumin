@@ -27,47 +27,56 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Аят дня
-    const today = new Date();
-    const start = new Date(today.getFullYear(), 0, 0);
-    const diff = today.getTime() - start.getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const dayOfYear = Math.floor(diff / oneDay);
-    const ayahNumber = (dayOfYear % 6236) + 1;
+  // Аят дня
+  const today = new Date();
+  const totalAyahs = 6236;
 
-    const fetchAyah = async () => {
-      try {
-        const res = await fetch(
-          `https://api.alquran.cloud/v1/ayah/${ayahNumber}`
-        );
-        const data = await res.json();
-        setAyahOfTheDay({
-          text: data.data.text,
-          surah: {
-            englishName: data.data.surah.englishName,
-            name: data.data.surah.name,
-          },
-          numberInSurah: data.data.numberInSurah,
-          number: data.data.number,
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  // Дата в формате YYYY-MM-DD
+  const todayString = today.toISOString().split("T")[0];
 
-    fetchAyah();
+  // Генерация "сид" из строки даты
+  let hash = 0;
+  for (let i = 0; i < todayString.length; i++) {
+    hash = todayString.charCodeAt(i) + ((hash << 5) - hash);
+  }
 
-    // Подгружаем все суры для поиска
-    const loadSurahs = async () => {
-      try {
-        const data = await quranApi.getSurahs();
-        setSurahs(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    loadSurahs();
-  }, []);
+  // Псевдослучайное число на основе хэша
+  const random = Math.abs(Math.sin(hash) * 10000);
+  const ayahNumber = (Math.floor(random) % totalAyahs) + 1;
+
+  const fetchAyah = async () => {
+    try {
+      const res = await fetch(
+        `https://api.alquran.cloud/v1/ayah/${ayahNumber}`
+      );
+      const data = await res.json();
+      setAyahOfTheDay({
+        text: data.data.text,
+        surah: {
+          englishName: data.data.surah.englishName,
+          name: data.data.surah.name,
+        },
+        numberInSurah: data.data.numberInSurah,
+        number: data.data.number,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchAyah();
+
+  // Подгружаем все суры для поиска
+  const loadSurahs = async () => {
+    try {
+      const data = await quranApi.getSurahs();
+      setSurahs(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  loadSurahs();
+}, []);
 
   const filteredSurahs = surahs.filter(
     (surah) =>
