@@ -23,13 +23,14 @@ export const Settings: React.FC<SettingsProps> = ({
     { id: "en.asad", name: "Muhammad Asad", language: "English" },
     { id: "en.pickthall", name: "Pickthall", language: "English" },
     { id: "ru.kuliev", name: "Кулиев", language: "Russian" },
-    { id: "ru.porokhova", name: "Порохова", language: "Russian" },
+    { id: "uz.sodik", name: "Мухаммад Содик Мухаммад Юсуф", language: "Uzbek" },
   ];
 
   const reciters = [
     { id: "ar.alafasy", name: "Mishary Rashid Alafasy" },
     { id: "ar.husary", name: "Mahmoud Khalil Al-Husary" },
     { id: "ar.sudais", name: "Abdul Rahman As-Sudais" },
+    { id: "ar.dossari", name: "Yasser Ad-Dossari" }, // ✅ добавлен
   ];
 
   // Font Sizes
