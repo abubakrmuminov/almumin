@@ -39,9 +39,9 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   const fontSizeClass = fontSizeMap[settings.fontSize] || "text-base";
 
   const arabicFontMap = {
-    small: "text-2xl sm:text-3xl",
-    medium: "text-4xl sm:text-5xl",
-    large: "text-5xl sm:text-6xl",
+    small: "text-xl sm:text-2xl",
+    medium: "text-2xl sm:text-3xl",
+    large: "text-3xl sm:text-4xl", // уменьшено ещё на одну ступень
   };
 
   const translationFontMap = {
@@ -75,26 +75,55 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   }, [surahNumber, settings.translation]);
 
   // Сохраняем первый аят как LastRead при загрузке
+  // Скролл при переходе с LastRead, Bookmarks или через #ayah-N
   useEffect(() => {
     if (!surahData) return;
-    const firstAyahText = surahData.ayahs?.[0]?.text || ""; // берем текст первого аята
-    setLastRead((prev) => {
-      if (prev?.surahNumber === surahNumber) return prev;
-      return {
-        surahNumber,
-        ayahNumber: 1,
-        surahName: surahData.englishName,
-        timestamp: Date.now(),
-        text: firstAyahText,
-      };
-    });
-  }, [surahData, surahNumber]);
+
+    let targetAyahNumber: number | null = null;
+
+    // 1. Проверка state (LastRead/Bookmark)
+    const state = location.state as
+      | { fromLastRead?: boolean; fromBookmark?: boolean; ayahNumber?: number }
+      | undefined;
+
+    if (state?.fromLastRead) {
+      const lastRead = JSON.parse(localStorage.getItem("lastRead") || "null");
+      if (lastRead?.surahNumber === surahNumber)
+        targetAyahNumber = lastRead.ayahNumber;
+    } else if (state?.fromBookmark && state.ayahNumber) {
+      targetAyahNumber = state.ayahNumber;
+    }
+
+    // 2. Проверка hash (#ayah-255)
+    if (!targetAyahNumber && location.hash.startsWith("#ayah-")) {
+      const hashAyah = Number(location.hash.replace("#ayah-", ""));
+      if (!isNaN(hashAyah)) {
+        targetAyahNumber = hashAyah;
+      }
+    }
+
+    // 3. Скролл
+    if (targetAyahNumber) {
+      const el = document.getElementById(`ayah-${targetAyahNumber}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-2", "ring-yellow-400");
+        setTimeout(
+          () => el.classList.remove("ring-2", "ring-yellow-400"),
+          2000
+        );
+      }
+    }
+  }, [surahData, surahNumber, location]);
 
   // Обновляем LastRead при скролле
   useEffect(() => {
     const handleScroll = () => {
+      if (!surahData) return; // <-- добавь эту строку
+
       const ayahElements = document.querySelectorAll("[data-ayah]");
       let firstVisibleAyah: number | null = null;
+
       ayahElements.forEach((el) => {
         const rect = el.getBoundingClientRect();
         if (
@@ -105,6 +134,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
           firstVisibleAyah = Number(el.getAttribute("data-ayah"));
         }
       });
+
       if (firstVisibleAyah) {
         const ayah = surahData.ayahs.find(
           (a: Ayah) => a.numberInSurah === firstVisibleAyah
@@ -113,11 +143,12 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
           surahNumber,
           ayahNumber: firstVisibleAyah,
           surahName: surahData.englishName,
-          text: ayah ? ayah.text : "", // сюда текст аята
+          text: ayah ? ayah.text : "",
           timestamp: Date.now(),
         });
       }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [surahNumber, surahData, setLastRead]);

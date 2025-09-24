@@ -23,8 +23,8 @@ export interface AyahCardProps {
   onPlay: () => void;
   onStop: () => void;
 
-  arabicFontClass?: string;       // необязательный
-  translationFontClass?: string;  // необязательный
+  arabicFontClass?: string; // необязательный
+  translationFontClass?: string; // необязательный
 }
 
 export const AyahCard: React.FC<AyahCardProps> = ({
@@ -51,12 +51,13 @@ export const AyahCard: React.FC<AyahCardProps> = ({
     }
   }, [isThisPlaying]);
 
-  // Копирование аята
+  // Копирование аята + ссылка
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${ayah.text}\n\n${translation.text} \n(${surahName} ${ayah.numberInSurah})`
-      );
+      const url = `${window.location.origin}/surah/${surahNumber}#ayah-${ayah.numberInSurah}`;
+      const textToCopy = `${ayah.text}\n\n${translation.text}\n(${surahName} ${ayah.numberInSurah})\n\n🔗 ${url}`;
+
+      await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -187,18 +188,26 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         </div>
       </div>
 
-      {/* Арабский текст */}
-      <p
-        className={`font-arabic leading-loose ${arabicFontClass || "text-4xl"} text-right`}
-        dir="rtl"
-      >
-        {ayah.text}
-      </p>
+      <div className="flex flex-col gap-10">
+        {/* Арабский текст */}
+        <p
+          className={`font-arabic leading-loose ${
+            arabicFontClass || "text-4xl"
+          } text-right`}
+          dir="rtl"
+        >
+          {ayah.text}
+        </p>
 
-      {/* Перевод */}
-      <p className={`text-gray-300 leading-relaxed ${translationFontClass || "text-base"}`}>
-        {translation.text}
-      </p>
+        {/* Перевод */}
+        <p
+          className={`text-gray-300 leading-relaxed ${
+            translationFontClass || "text-base"
+          }`}
+        >
+          {translation.text}
+        </p>
+      </div>
 
       {/* Метаданные */}
       <div className="flex items-center justify-between pt-4 mt-4 text-xs text-gray-500 border-t border-[#1a1818]">

@@ -15,7 +15,7 @@ function App() {
     reciter: "ar.alafasy",
     fontSize: "medium",
     theme: "dark",
-    fontSizeValue: 24, // <--- добавляем
+    fontSizeValue: 24,
   });
 
   // применяем тему
