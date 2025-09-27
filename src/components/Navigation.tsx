@@ -36,7 +36,9 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
             onClick={() => navigate("/")}
           >
             <div className="flex items-center justify-center w-10 h-10 bg-gray-700 rounded-xl">
-              <span className="text-lg font-bold text-white">م</span>
+              <span className="text-lg font-bold text-white rounded-2xl">
+                <img src="../logo.png" alt="" className="rounded-md" />
+              </span>{" "}
             </div>
             <h1 className="text-xl font-bold text-white">AlMumin</h1>
           </motion.div>
@@ -72,7 +74,11 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
               whileHover={{ scale: 1.1, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
             >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isDark ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </motion.button>
 
             <motion.button
@@ -93,7 +99,11 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </motion.button>
           </div>
         </div>
@@ -141,7 +151,11 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
                   }}
                   className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
                 >
-                  {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                  {isDark ? (
+                    <Sun className="w-5 h-5" />
+                  ) : (
+                    <Moon className="w-5 h-5" />
+                  )}
                   <span className="font-medium">Toggle Theme</span>
                 </motion.button>
 
