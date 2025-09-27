@@ -22,7 +22,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome }) => {
             whileHover={{ rotate: 10 }}
           >
             <span className="text-lg font-bold text-white rounded-2xl">
-              <img src="../logo.png" alt="" className="rounded-md" />
+              <img src="/logo.png" alt="" className="rounded-md" />
             </span>
           </motion.div>
           <motion.span

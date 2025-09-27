@@ -37,7 +37,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
           >
             <div className="flex items-center justify-center w-10 h-10 bg-gray-700 rounded-xl">
               <span className="text-lg font-bold text-white rounded-2xl">
-                <img src="../logo.png" alt="" className="rounded-md" />
+                <img src="/logo.png" alt="" className="rounded-md" />
               </span>{" "}
             </div>
             <h1 className="text-xl font-bold text-white">AlMumin</h1>
