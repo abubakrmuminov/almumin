@@ -188,7 +188,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-10">
         {/* Арабский текст */}
         <p
           className={`font-arabic leading-loose ${
@@ -198,17 +198,6 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         >
           {ayah.text}
         </p>
-
-        {/* Транскрипция */}
-        {ayah.transliteration && (
-          <p
-            className={`text-[#d4af37]/80 italic leading-relaxed ${
-              translationFontClass || "text-base"
-            }`}
-          >
-            {ayah.transliteration}
-          </p>
-        )}
 
         {/* Перевод */}
         <p
