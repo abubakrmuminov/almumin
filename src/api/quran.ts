@@ -42,15 +42,16 @@ export const quranApi = {
     }
   },
 
+  // 🔥 Get transliteration (из локальных JSON файлов)
   getSurahTransliteration: async (surahNumber: number) => {
     try {
-      const response = await fetch(`/src/data/transliterations/${surahNumber}.json`);
+      const response = await fetch(`/transliterations/${surahNumber}.json`);
       if (!response.ok) throw new Error("Transliteration not found");
       const data = await response.json();
-      return data;
+      return data; // здесь уже будут ayahs
     } catch (error) {
       console.error("Error fetching transliteration:", error);
-      return {};
+      throw error;
     }
   },
 
