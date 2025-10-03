@@ -14,6 +14,7 @@ import type { Ayah, Bookmark, Settings } from "../types/quran";
 export interface AyahCardProps {
   ayah: Ayah;
   translation: Ayah;
+  transliteration?: string;
   surahNumber: number;
   surahName: string;
   settings: Settings;
@@ -23,13 +24,14 @@ export interface AyahCardProps {
   onPlay: () => void;
   onStop: () => void;
 
-  arabicFontClass?: string; // необязательный
-  translationFontClass?: string; // необязательный
+  arabicFontClass?: string;
+  translationFontClass?: string;
 }
 
 export const AyahCard: React.FC<AyahCardProps> = ({
   ayah,
   translation,
+  transliteration,
   surahNumber,
   surahName,
   isBookmarked,
@@ -188,7 +190,7 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-6">
         {/* Арабский текст */}
         <p
           className={`font-arabic leading-loose ${
@@ -198,6 +200,13 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         >
           {ayah.text}
         </p>
+
+        {/* Транскрипция */}
+        {transliteration && (
+          <p className="text-[#d4af37]/80 leading-relaxed text-sm italic">
+            {transliteration}
+          </p>
+        )}
 
         {/* Перевод */}
         <p

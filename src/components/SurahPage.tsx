@@ -20,6 +20,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
 
   const [surahData, setSurahData] = useState<any>(null);
   const [translationData, setTranslationData] = useState<any>(null);
+  const [transliterationData, setTransliterationData] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   const [bookmarks, setBookmarks] = useLocalStorage<Bookmark[]>(
@@ -59,12 +60,14 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
     const loadSurah = async () => {
       setLoading(true);
       try {
-        const [arabicData, translationData] = await Promise.all([
+        const [arabicData, translationData, transliterationData] = await Promise.all([
           quranApi.getSurah(surahNumber),
           quranApi.getSurahWithTranslation(surahNumber, settings.translation),
+          quranApi.getSurahTransliteration(surahNumber),
         ]);
         setSurahData(arabicData);
         setTranslationData(translationData);
+        setTransliterationData(transliterationData);
       } catch (error) {
         console.error("Error loading surah:", error);
       } finally {
@@ -298,6 +301,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
             <AyahCard
               ayah={ayah}
               translation={translationData.ayahs[index]}
+              transliteration={transliterationData[`${surahNumber}:${ayah.numberInSurah}`] || ""}
               surahNumber={surahNumber}
               surahName={surahData.englishName}
               settings={settings}
