@@ -37,7 +37,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome }) => {
         <div className="flex items-center space-x-6">
           {[
             { href: "https://instagram.com/secretly_ai", icon: Instagram },
-            { href: "https://t.me/abubakr_ai", icon: Send },
+            { href: "https://t.me/m/xL0FAWqiZDA6", icon: Send },
             { href: "https://t.me/nur_al_mumin", icon: MessageCircle },
           ].map(({ href, icon: Icon }) => (
             <motion.a
