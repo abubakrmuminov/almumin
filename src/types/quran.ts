@@ -17,6 +17,7 @@ export interface Ayah {
   ruku: number;
   hizbQuarter: number;
   sajda: boolean;
+  transliteration?: string;
 }
 
 export interface SurahData {
