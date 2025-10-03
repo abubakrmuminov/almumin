@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.alquran.cloud/v1';
+const BASE_URL = "https://api.alquran.cloud/v1";
 
 export const quranApi = {
   // Get all surahs
@@ -8,7 +8,7 @@ export const quranApi = {
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Error fetching surahs:', error);
+      console.error("Error fetching surahs:", error);
       throw error;
     }
   },
@@ -20,56 +20,88 @@ export const quranApi = {
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Error fetching surah:', error);
+      console.error("Error fetching surah:", error);
       throw error;
     }
   },
 
   // Get surah with translation
-  getSurahWithTranslation: async (surahNumber: number, translation: string = 'en.asad') => {
+  getSurahWithTranslation: async (
+    surahNumber: number,
+    translation: string = "en.asad"
+  ) => {
     try {
-      const response = await fetch(`${BASE_URL}/surah/${surahNumber}/${translation}`);
+      const response = await fetch(
+        `${BASE_URL}/surah/${surahNumber}/${translation}`
+      );
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Error fetching surah with translation:', error);
+      console.error("Error fetching surah with translation:", error);
+      throw error;
+    }
+  },
+
+  // 🔥 Get transliteration (из локальных JSON файлов)
+  getSurahTransliteration: async (surahNumber: number) => {
+    try {
+      const response = await fetch(`/transliterations/${surahNumber}.json`);
+      if (!response.ok) throw new Error("Transliteration not found");
+      const data = await response.json();
+      return data; // здесь уже будут ayahs
+    } catch (error) {
+      console.error("Error fetching transliteration:", error);
       throw error;
     }
   },
 
   // Get specific ayah with translation
-  getAyahWithTranslation: async (surahNumber: number, ayahNumber: number, translation: string = 'en.asad') => {
+  getAyahWithTranslation: async (
+    surahNumber: number,
+    ayahNumber: number,
+    translation: string = "en.asad"
+  ) => {
     try {
-      const response = await fetch(`${BASE_URL}/ayah/${surahNumber}:${ayahNumber}/${translation}`);
+      const response = await fetch(
+        `${BASE_URL}/ayah/${surahNumber}:${ayahNumber}/${translation}`
+      );
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Error fetching ayah:', error);
+      console.error("Error fetching ayah:", error);
       throw error;
     }
   },
 
   // Get audio for ayah
-  getAyahAudio: async (surahNumber: number, ayahNumber: number, reciter: string = 'ar.alafasy') => {
+  getAyahAudio: async (
+    surahNumber: number,
+    ayahNumber: number,
+    reciter: string = "ar.alafasy"
+  ) => {
     try {
-      const response = await fetch(`${BASE_URL}/ayah/${surahNumber}:${ayahNumber}/${reciter}`);
+      const response = await fetch(
+        `${BASE_URL}/ayah/${surahNumber}:${ayahNumber}/${reciter}`
+      );
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Error fetching audio:', error);
+      console.error("Error fetching audio:", error);
       throw error;
     }
   },
 
   // Search ayahs
-  searchAyahs: async (query: string, translation: string = 'en.asad') => {
+  searchAyahs: async (query: string, translation: string = "en.asad") => {
     try {
-      const response = await fetch(`${BASE_URL}/search/${query}/all/${translation}`);
+      const response = await fetch(
+        `${BASE_URL}/search/${query}/all/${translation}`
+      );
       const data = await response.json();
       return data.data;
     } catch (error) {
-      console.error('Error searching ayahs:', error);
+      console.error("Error searching ayahs:", error);
       throw error;
     }
-  }
+  },
 };
