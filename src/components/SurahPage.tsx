@@ -60,14 +60,14 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
     const loadSurah = async () => {
       setLoading(true);
       try {
-        const [arabicData, translationData, transliterationData] = await Promise.all([
+        const [arabicData, translationData, transliteration] = await Promise.all([
           quranApi.getSurah(surahNumber),
           quranApi.getSurahWithTranslation(surahNumber, settings.translation),
           quranApi.getSurahTransliteration(surahNumber),
         ]);
         setSurahData(arabicData);
         setTranslationData(translationData);
-        setTransliterationData(transliterationData);
+        setTransliterationData(transliteration);
       } catch (error) {
         console.error("Error loading surah:", error);
       } finally {
@@ -293,28 +293,32 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
       </div>
 
       <div className="flex flex-col items-center space-y-5">
-        {surahData.ayahs.map((ayah: any, index: number) => (
-          <div
-            key={ayah.number}
-            className="w-full sm:w-11/12 md:w-3/4 lg:w-2/3"
-          >
-            <AyahCard
-              ayah={ayah}
-              translation={translationData.ayahs[index]}
-              transliteration={transliterationData[`${surahNumber}:${ayah.numberInSurah}`] || ""}
-              surahNumber={surahNumber}
-              surahName={surahData.englishName}
-              settings={settings}
-              isBookmarked={isBookmarked(ayah.numberInSurah)}
-              onToggleBookmark={handleToggleBookmark}
-              currentAyah={currentAyah}
-              onPlay={() => playAyah(index)}
-              onStop={stopAudio}
-              arabicFontClass={arabicFontClass}
-              translationFontClass={translationFontClass}
-            />
-          </div>
-        ))}
+        {surahData.ayahs.map((ayah: any, index: number) => {
+          const ayahKey = `${surahNumber}:${ayah.numberInSurah}`;
+          const transliteration = transliterationData[ayahKey] || "";
+
+          return (
+            <div
+              key={ayah.number}
+              className="w-full sm:w-11/12 md:w-3/4 lg:w-2/3"
+            >
+              <AyahCard
+                ayah={{ ...ayah, transliteration }}
+                translation={translationData.ayahs[index]}
+                surahNumber={surahNumber}
+                surahName={surahData.englishName}
+                settings={settings}
+                isBookmarked={isBookmarked(ayah.numberInSurah)}
+                onToggleBookmark={handleToggleBookmark}
+                currentAyah={currentAyah}
+                onPlay={() => playAyah(index)}
+                onStop={stopAudio}
+                arabicFontClass={arabicFontClass}
+                translationFontClass={translationFontClass}
+              />
+            </div>
+          );
+        })}
       </div>
     </motion.div>
   );

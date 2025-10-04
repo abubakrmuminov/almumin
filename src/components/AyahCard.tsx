@@ -14,7 +14,6 @@ import type { Ayah, Bookmark, Settings } from "../types/quran";
 export interface AyahCardProps {
   ayah: Ayah;
   translation: Ayah;
-  transliteration?: string;
   surahNumber: number;
   surahName: string;
   settings: Settings;
@@ -24,14 +23,13 @@ export interface AyahCardProps {
   onPlay: () => void;
   onStop: () => void;
 
-  arabicFontClass?: string;
-  translationFontClass?: string;
+  arabicFontClass?: string; // необязательный
+  translationFontClass?: string; // необязательный
 }
 
 export const AyahCard: React.FC<AyahCardProps> = ({
   ayah,
   translation,
-  transliteration,
   surahNumber,
   surahName,
   isBookmarked,
@@ -202,9 +200,13 @@ export const AyahCard: React.FC<AyahCardProps> = ({
         </p>
 
         {/* Транскрипция */}
-        {transliteration && (
-          <p className="text-[#d4af37]/80 leading-relaxed text-sm italic">
-            {transliteration}
+        {ayah.transliteration && (
+          <p
+            className={`text-[#d4af37]/80 italic leading-relaxed ${
+              translationFontClass || "text-base"
+            }`}
+          >
+            {ayah.transliteration}
           </p>
         )}
 
