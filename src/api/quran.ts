@@ -44,7 +44,7 @@ export const quranApi = {
 
   getSurahTransliteration: async (surahNumber: number) => {
     try {
-      const response = await fetch(`/src/data/transliterations/${surahNumber}.json`);
+      const response = await fetch(`/transliterations/${surahNumber}.json`);
       if (!response.ok) throw new Error("Transliteration not found");
       const data = await response.json();
       return data;
