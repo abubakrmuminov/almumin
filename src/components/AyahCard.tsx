@@ -52,10 +52,18 @@ export const AyahCard: React.FC<AyahCardProps> = ({
   }, [isThisPlaying]);
 
   // Копирование аята + ссылка
+  // Копирование аята + ссылка
   const handleCopy = async () => {
     try {
       const url = `${window.location.origin}/surah/${surahNumber}#ayah-${ayah.numberInSurah}`;
-      const textToCopy = `${ayah.text}\n\n${translation.text}\n(${surahName} ${ayah.numberInSurah})\n\n🔗 ${url}`;
+
+      const textToCopy = `
+${ayah.text}
+${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
+\n${translation.text}
+\n(${surahName} ${ayah.numberInSurah})
+\n🔗 ${url}
+    `.trim();
 
       await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
@@ -234,4 +242,3 @@ export const AyahCard: React.FC<AyahCardProps> = ({
     </motion.div>
   );
 };
-  
