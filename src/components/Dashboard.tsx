@@ -27,56 +27,56 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  // Аят дня
-  const today = new Date();
-  const totalAyahs = 6236;
+    // Аят дня
+    const today = new Date();
+    const totalAyahs = 6236;
 
-  // Дата в формате YYYY-MM-DD
-  const todayString = today.toISOString().split("T")[0];
+    // Дата в формате YYYY-MM-DD
+    const todayString = today.toISOString().split("T")[0];
 
-  // Генерация "сид" из строки даты
-  let hash = 0;
-  for (let i = 0; i < todayString.length; i++) {
-    hash = todayString.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  // Псевдослучайное число на основе хэша
-  const random = Math.abs(Math.sin(hash) * 10000);
-  const ayahNumber = (Math.floor(random) % totalAyahs) + 1;
-
-  const fetchAyah = async () => {
-    try {
-      const res = await fetch(
-        `https://api.alquran.cloud/v1/ayah/${ayahNumber}`
-      );
-      const data = await res.json();
-      setAyahOfTheDay({
-        text: data.data.text,
-        surah: {
-          englishName: data.data.surah.englishName,
-          name: data.data.surah.name,
-        },
-        numberInSurah: data.data.numberInSurah,
-        number: data.data.number,
-      });
-    } catch (err) {
-      console.error(err);
+    // Генерация "сид" из строки даты
+    let hash = 0;
+    for (let i = 0; i < todayString.length; i++) {
+      hash = todayString.charCodeAt(i) + ((hash << 5) - hash);
     }
-  };
 
-  fetchAyah();
+    // Псевдослучайное число на основе хэша
+    const random = Math.abs(Math.sin(hash) * 10000);
+    const ayahNumber = (Math.floor(random) % totalAyahs) + 1;
 
-  // Подгружаем все суры для поиска
-  const loadSurahs = async () => {
-    try {
-      const data = await quranApi.getSurahs();
-      setSurahs(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  loadSurahs();
-}, []);
+    const fetchAyah = async () => {
+      try {
+        const res = await fetch(
+          `https://api.alquran.cloud/v1/ayah/${ayahNumber}`
+        );
+        const data = await res.json();
+        setAyahOfTheDay({
+          text: data.data.text,
+          surah: {
+            englishName: data.data.surah.englishName,
+            name: data.data.surah.name,
+          },
+          numberInSurah: data.data.numberInSurah,
+          number: data.data.number,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAyah();
+
+    // Подгружаем все суры для поиска
+    const loadSurahs = async () => {
+      try {
+        const data = await quranApi.getSurahs();
+        setSurahs(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadSurahs();
+  }, []);
 
   const filteredSurahs = surahs.filter(
     (surah) =>
@@ -194,12 +194,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                   {ayahOfTheDay.surah.englishName} ({ayahOfTheDay.surah.name}) —
                   Ayah {ayahOfTheDay.numberInSurah}
                 </p>
-                <div className="flex justify-center mt-4">
-                  
-                </div>
+                <div className="flex justify-center mt-4"></div>
               </div>
             </div>
           )}
+
+          <div className="flex justify-center mt-6">
+            <motion.a
+              href="https://namaz.mumin.ink"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center px-5 py-2.5 space-x-2 text-black bg-yellow-400 rounded-lg hover:bg-yellow-300 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-medium">Check Prayer Times</span>
+            </motion.a>
+          </div>
         </div>
       </div>
 
