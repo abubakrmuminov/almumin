@@ -92,7 +92,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
       {/* Header */}
       <div className="relative z-10 px-6 py-8 text-center">
         <motion.h1
-          className="text-5xl font-bold text-center text-yellow-400 sm:text-6xl"
+          className="text-5xl font-bold text-center text-gray-300 sm:text-6xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -108,7 +108,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                 state: { fromLastRead: true },
               })
             }
-            className="flex items-center px-4 py-2 space-x-2 text-black bg-yellow-400 rounded-lg hover:bg-yellow-300"
+            className="flex items-center px-4 py-2 space-x-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -118,7 +118,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
 
           <motion.button
             onClick={() => setSearchOpen(true)}
-            className="flex items-center px-4 py-2 space-x-2 text-yellow-400 bg-gray-800 rounded-lg hover:bg-gray-700"
+            className="flex items-center px-4 py-2 space-x-2 text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -128,7 +128,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
 
           <motion.button
             onClick={() => navigate("/bookmarks")}
-            className="flex items-center px-4 py-2 space-x-2 text-yellow-400 bg-gray-800 rounded-lg hover:bg-gray-700"
+            className="flex items-center px-4 py-2 space-x-2 text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -168,7 +168,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                         },
                       })
                     }
-                    className="flex items-center justify-center px-3 py-2 text-black transition-all bg-yellow-500 rounded-lg hover:bg-yellow-400"
+                    className="flex items-center justify-center px-3 py-2 text-black transition-all bg-gray-300 rounded-lg hover:bg-gray-400"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -204,7 +204,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
               href="https://namaz.mumin.ink"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center px-5 py-2.5 space-x-2 text-black bg-yellow-400 rounded-lg hover:bg-yellow-300 transition-all"
+              className="flex items-center px-5 py-2.5 space-x-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400 transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -241,11 +241,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                 placeholder="Search chapters..."
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
-                className="w-full p-3 text-white bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                className="w-full p-3 text-white bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400"
               />
               <motion.button
                 onClick={() => setSearchOpen(false)}
-                className="px-3 py-2 text-black bg-yellow-500 rounded-lg hover:bg-yellow-400"
+                className="px-3 py-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
