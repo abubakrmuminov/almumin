@@ -7,6 +7,7 @@ import {
   X,
   Home,
   Bookmark,
+  Clock, // для Namaz Time
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -16,14 +17,61 @@ interface NavigationProps {
   onToggleTheme: () => void;
 }
 
+interface NavItem {
+  to?: string;
+  label: string;
+  icon: React.ElementType;
+  external?: boolean; // для внешних ссылок
+  href?: string;
+}
+
 const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { to: "/", label: "Home", icon: Home },
     { to: "/bookmarks", label: "Bookmarks", icon: Bookmark },
+    { label: "Namaz Time", icon: Clock, external: true, href: "https://namaz.mumin.ink" },
   ];
+
+  const MenuButton: React.FC<{
+    label: string;
+    icon: React.ElementType;
+    onClick?: () => void;
+    href?: string;
+    external?: boolean;
+  }> = ({ label, icon: Icon, onClick, href, external }) => {
+    const content = (
+      <>
+        <Icon className="w-5 h-5" />
+        <span className="font-medium">{label}</span>
+      </>
+    );
+
+    if (external && href) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
+          onClick={onClick}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return (
+      <button
+        onClick={onClick}
+        className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
+      >
+        {content}
+      </button>
+    );
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md">
@@ -36,9 +84,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
             onClick={() => navigate("/")}
           >
             <div className="flex items-center justify-center w-10 h-10 bg-gray-700 rounded-xl">
-              <span className="text-lg font-bold text-white rounded-2xl">
-                <img src="/logo.png" alt="" className="rounded-md" />
-              </span>{" "}
+              <img src="/logo.png" alt="AlMumin Logo" className="rounded-md" />
             </div>
             <h1 className="text-xl font-bold text-white">AlMumin</h1>
           </motion.div>
@@ -47,10 +93,21 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
           <div className="items-center hidden space-x-1 md:flex">
             {navItems.map((item) => {
               const Icon = item.icon;
-              return (
+              return item.external ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative flex items-center px-4 py-2 space-x-2 text-sm font-medium text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </a>
+              ) : (
                 <NavLink
                   key={item.to}
-                  to={item.to}
+                  to={item.to!}
                   className={({ isActive }) =>
                     `relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
                       isActive
@@ -74,11 +131,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
               whileHover={{ scale: 1.1, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
             >
-              {isDark ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </motion.button>
 
             <motion.button
@@ -99,11 +152,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              {isOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </motion.button>
           </div>
         </div>
@@ -119,12 +168,20 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
             className="border-t border-white/10 bg-black/50 backdrop-blur-md md:hidden"
           >
             <div className="px-4 py-4 space-y-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
+              {navItems.map((item) =>
+                item.external ? (
+                  <MenuButton
+                    key={item.label}
+                    label={item.label}
+                    icon={item.icon}
+                    href={item.href}
+                    external
+                    onClick={() => setIsOpen(false)}
+                  />
+                ) : (
                   <NavLink
                     key={item.to}
-                    to={item.to}
+                    to={item.to!}
                     className={({ isActive }) =>
                       `w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ${
                         isActive
@@ -134,39 +191,29 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
                     }
                     onClick={() => setIsOpen(false)}
                   >
-                    <Icon className="w-5 h-5" />
+                    <item.icon className="w-5 h-5" />
                     <span className="font-medium">{item.label}</span>
                   </NavLink>
-                );
-              })}
+                )
+              )}
 
-              <div className="pt-2 mt-4 border-t border-white/10">
-                <motion.button
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
+              <div className="pt-2 mt-4 space-y-1 border-t border-white/10">
+                <MenuButton
+                  label="Toggle Theme"
+                  icon={isDark ? Sun : Moon}
                   onClick={() => {
                     onToggleTheme();
                     setIsOpen(false);
                   }}
-                  className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
-                >
-                  {isDark ? (
-                    <Sun className="w-5 h-5" />
-                  ) : (
-                    <Moon className="w-5 h-5" />
-                  )}
-                  <span className="font-medium">Toggle Theme</span>
-                </motion.button>
-
-                <NavLink
-                  to="/settings"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
-                >
-                  <SettingsIcon className="w-5 h-5" />
-                  <span className="font-medium">Settings</span>
-                </NavLink>
+                />
+                <MenuButton
+                  label="Settings"
+                  icon={SettingsIcon}
+                  onClick={() => {
+                    navigate("/settings");
+                    setIsOpen(false);
+                  }}
+                />
               </div>
             </div>
           </motion.div>

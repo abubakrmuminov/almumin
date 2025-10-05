@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Globe, Type, Volume2, Palette, RotateCcw, X, Sun, Moon } from "lucide-react";
+import {
+  Globe,
+  Type,
+  Volume2,
+  Palette,
+  RotateCcw,
+  X,
+  Sun,
+  Moon,
+} from "lucide-react";
 import type { Settings as SettingsType } from "../types/quran";
 
 interface SettingsProps {

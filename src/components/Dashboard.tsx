@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Clock, BookOpen, Search as SearchIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -25,6 +25,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
   const [searchFilter, setSearchFilter] = useState("");
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const navigate = useNavigate();
+  const searchRef = useRef<HTMLDivElement>(null); // для отслеживания клика вне модалки
 
   useEffect(() => {
     // Аят дня
