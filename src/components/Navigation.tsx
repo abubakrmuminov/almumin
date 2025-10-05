@@ -1,178 +1,127 @@
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Settings as SettingsIcon,
-  Moon,
-  Sun,
+  BookOpen,
+  Bookmark,
+  Settings,
+  Home,
   Menu,
   X,
-  Home,
-  Bookmark,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { NavLink, useNavigate } from "react-router-dom";
 
 interface NavigationProps {
   isDark: boolean;
   onToggleTheme: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
+const Navigation: React.FC<NavigationProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
-    { to: "/", label: "Home", icon: Home },
-    { to: "/bookmarks", label: "Bookmarks", icon: Bookmark },
+    { path: "/", icon: Home, label: "Home" },
+    { path: "/bookmarks", icon: Bookmark, label: "Bookmarks" },
+    { path: "/settings", icon: Settings, label: "Settings" },
   ];
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <motion.div
-            className="flex items-center space-x-3 cursor-pointer"
-            whileHover={{ scale: 1.02 }}
-            onClick={() => navigate("/")}
-          >
-            <div className="flex items-center justify-center w-10 h-10 bg-gray-700 rounded-xl">
-              <span className="text-lg font-bold text-white rounded-2xl">
-                <img src="/logo.png" alt="" className="rounded-md" />
-              </span>{" "}
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-indigo-900/80 via-purple-900/80 to-indigo-900/80 backdrop-blur-xl border-b border-white/10 shadow-lg"
+      >
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <Link to="/" className="flex items-center gap-3 group">
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg"
+              >
+                <BookOpen className="w-5 h-5 text-white" />
+              </motion.div>
+              <h1 className="text-xl font-bold text-white sm:text-2xl">
+                AlMumin <span className="text-indigo-300">Quran</span>
+              </h1>
+            </Link>
+
+            <div className="items-center hidden gap-2 md:flex">
+              {navItems.map((item) => (
+                <Link key={item.path} to={item.path}>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                      isActive(item.path)
+                        ? "bg-white/20 text-white shadow-lg"
+                        : "text-indigo-200 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </motion.button>
+                </Link>
+              ))}
             </div>
-            <h1 className="text-xl font-bold text-white">AlMumin</h1>
-          </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="items-center hidden space-x-1 md:flex">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
-                      isActive
-                        ? "text-white bg-white/10"
-                        : "text-gray-300 hover:text-white hover:bg-white/5"
-                    }`
-                  }
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </NavLink>
-              );
-            })}
-          </div>
-
-          {/* Desktop Actions */}
-          <div className="items-center hidden space-x-2 md:flex">
             <motion.button
-              onClick={onToggleTheme}
-              className="p-2.5 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/10"
-              whileHover={{ scale: 1.1, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </motion.button>
-
-            <motion.button
-              onClick={() => navigate("/settings")}
-              className="p-2.5 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/10"
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <SettingsIcon className="w-5 h-5" />
-            </motion.button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-gray-300 transition-colors rounded-xl hover:text-white hover:bg-white/10"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className="p-2 text-white transition rounded-lg md:hidden hover:bg-white/10"
             >
-              {isOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </motion.button>
           </div>
         </div>
-      </div>
+      </motion.nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="border-t border-white/10 bg-black/50 backdrop-blur-md md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm md:hidden"
+            onClick={() => setIsOpen(false)}
           >
-            <div className="px-4 py-4 space-y-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    className={({ isActive }) =>
-                      `w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ${
-                        isActive
-                          ? "text-white bg-white/10"
-                          : "text-gray-300 hover:text-white hover:bg-white/5"
-                      }`
-                    }
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 20 }}
+              className="absolute top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-900 to-purple-900 border-l border-white/10 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col p-4 space-y-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
                     onClick={() => setIsOpen(false)}
                   >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-medium">{item.label}</span>
-                  </NavLink>
-                );
-              })}
-
-              <div className="pt-2 mt-4 border-t border-white/10">
-                <motion.button
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                  onClick={() => {
-                    onToggleTheme();
-                    setIsOpen(false);
-                  }}
-                  className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
-                >
-                  {isDark ? (
-                    <Sun className="w-5 h-5" />
-                  ) : (
-                    <Moon className="w-5 h-5" />
-                  )}
-                  <span className="font-medium">Toggle Theme</span>
-                </motion.button>
-
-                <NavLink
-                  to="/settings"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
-                >
-                  <SettingsIcon className="w-5 h-5" />
-                  <span className="font-medium">Settings</span>
-                </NavLink>
+                    <motion.button
+                      whileHover={{ x: 5 }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
+                        isActive(item.path)
+                          ? "bg-white/20 text-white shadow-lg"
+                          : "text-indigo-200 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      <item.icon className="w-5 h-5" />
+                      <span>{item.label}</span>
+                    </motion.button>
+                  </Link>
+                ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 
