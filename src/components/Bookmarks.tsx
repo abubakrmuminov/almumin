@@ -39,9 +39,9 @@ export const Bookmarks: React.FC = () => {
             transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
             className="relative z-10 flex flex-col items-center py-20"
           >
-            <Bookmark className="w-20 h-20 mb-6 text-yellow-400" />
+            <Bookmark className="w-20 h-20 mb-6 text-gray-300" />
 
-            <h1 className="mb-4 text-3xl font-bold text-yellow-400">
+            <h1 className="mb-4 text-3xl font-bold text-gray-300">
               Bookmarks
             </h1>
             <p className="max-w-md mx-auto mb-8 text-gray-400">
@@ -50,7 +50,7 @@ export const Bookmarks: React.FC = () => {
 
             <a
               href="/"
-              className="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-black transition-colors bg-yellow-400 rounded-md whitespace-nowrap hover:bg-yellow-300"
+              className="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-black transition-colors bg-gray-300 rounded-md whitespace-nowrap hover:bg-gray-400"
             >
               <BookOpen className="w-4 h-4 mr-2" />
               Start Reading
@@ -71,7 +71,7 @@ export const Bookmarks: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col items-start justify-between mb-8 space-y-4 sm:flex-row sm:items-center sm:space-y-0">
           <div>
-            <h2 className="flex items-center text-3xl font-bold text-yellow-400 sm:text-4xl">
+            <h2 className="flex items-center text-3xl font-bold text-gray-300 sm:text-4xl">
               <Bookmark className="w-8 h-8 mr-3" />
               Bookmarks
             </h2>
@@ -104,18 +104,18 @@ export const Bookmarks: React.FC = () => {
                 type: "spring",
                 bounce: 0.3,
               }}
-              className="relative overflow-hidden transition-all duration-500 bg-black border border-gray-800 rounded-xl hover:border-yellow-500/40"
+              className="relative overflow-hidden transition-all duration-500 bg-black border border-gray-800 rounded-xl hover:border-gray-400/40"
             >
               {/* Орнамент */}
               <div className="absolute inset-0 pointer-events-none bg-[url('/ornament.svg')] opacity-10 rounded-xl"></div>
 
               {/* Accent line */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-yellow-600"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-300 to-gray-400"></div>
 
               <div className="relative z-10 p-6 sm:p-8">
                 <div className="flex flex-col items-start justify-between space-y-4 sm:flex-row sm:items-center sm:space-y-0">
                   <div className="flex items-start space-x-4">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-md bg-gradient-to-br from-yellow-500 to-yellow-600">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-md bg-gradient-to-br from-gray-300 to-gray-400">
                       <Bookmark className="w-6 h-6 text-black fill-current" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -139,7 +139,7 @@ export const Bookmarks: React.FC = () => {
                           },
                         })
                       }
-                      className="flex items-center px-4 py-2 space-x-2 text-yellow-400 transition-all duration-300 rounded-lg hover:text-yellow-300 hover:bg-yellow-500/10"
+                      className="flex items-center px-4 py-2 space-x-2 text-gray-300 transition-all duration-300 rounded-lg hover:text-gray-200 hover:bg-gray-500/10"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -200,7 +200,7 @@ export const Bookmarks: React.FC = () => {
               {/* Орнамент */}
               <div className="absolute inset-0 pointer-events-none bg-[url('/ornament.svg')] opacity-10 rounded-xl"></div>
 
-              <h3 className="relative z-10 mb-4 text-xl font-bold text-yellow-400">
+              <h3 className="relative z-10 mb-4 text-xl font-bold text-gray-300">
                 Clear All Bookmarks?
               </h3>
               <p className="relative z-10 mb-6 text-gray-400">
@@ -215,7 +215,7 @@ export const Bookmarks: React.FC = () => {
                 </button>
                 <button
                   onClick={clearAllBookmarks}
-                  className="px-4 py-2 text-black transition bg-yellow-400 rounded-lg hover:bg-yellow-300"
+                  className="px-4 py-2 text-black transition bg-gray-300 rounded-lg hover:bg-gray-400"
                 >
                   Confirm
                 </button>

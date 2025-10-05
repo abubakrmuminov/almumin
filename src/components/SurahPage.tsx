@@ -110,9 +110,9 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
       const el = document.getElementById(`ayah-${targetAyahNumber}`);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.classList.add("ring-2", "ring-yellow-400");
+        el.classList.add("ring-2", "ring-gray-400");
         setTimeout(
-          () => el.classList.remove("ring-2", "ring-yellow-400"),
+          () => el.classList.remove("ring-2", "ring-gray-400"),
           2000
         );
       }
@@ -176,9 +176,9 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
       const el = document.getElementById(`ayah-${targetAyahNumber}`);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.classList.add("ring-2", "ring-yellow-400");
+        el.classList.add("ring-2", "ring-gray-400");
         setTimeout(
-          () => el.classList.remove("ring-2", "ring-yellow-400"),
+          () => el.classList.remove("ring-2", "ring-gray-400"),
           2000
         );
       }
