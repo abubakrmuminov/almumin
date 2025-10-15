@@ -7,7 +7,7 @@ import {
   X,
   Home,
   Bookmark,
-  Clock, // для Namaz Time
+  Clock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ interface NavItem {
   to?: string;
   label: string;
   icon: React.ElementType;
-  external?: boolean; // для внешних ссылок
+  external?: boolean;
   href?: string;
 }
 
@@ -32,7 +32,12 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
   const navItems: NavItem[] = [
     { to: "/", label: "Home", icon: Home },
     { to: "/bookmarks", label: "Bookmarks", icon: Bookmark },
-    { label: "Namaz Time", icon: Clock, external: true, href: "https://namaz.mumin.ink" },
+    {
+      label: "Namaz Time",
+      icon: Clock,
+      external: true,
+      href: "https://namaz.mumin.ink",
+    },
   ];
 
   const MenuButton: React.FC<{
@@ -49,13 +54,16 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
       </>
     );
 
+    const baseClass =
+      "flex items-center w-full px-4 py-3 space-x-3 rounded-xl transition-all duration-300 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5";
+
     if (external && href) {
       return (
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
+          className={baseClass}
           onClick={onClick}
         >
           {content}
@@ -64,17 +72,14 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
     }
 
     return (
-      <button
-        onClick={onClick}
-        className="flex items-center w-full px-4 py-3 space-x-3 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
-      >
+      <button onClick={onClick} className={baseClass}>
         {content}
       </button>
     );
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white/90 dark:bg-black/50 backdrop-blur-md dark:border-transparent">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -83,10 +88,12 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
             whileHover={{ scale: 1.02 }}
             onClick={() => navigate("/")}
           >
-            <div className="flex items-center justify-center w-10 h-10 bg-gray-700 rounded-xl">
+            <div className="flex items-center justify-center w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-xl">
               <img src="/logo.png" alt="AlMumin Logo" className="rounded-md" />
             </div>
-            <h1 className="text-xl font-bold text-white">AlMumin</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              AlMumin
+            </h1>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -99,7 +106,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex items-center px-4 py-2 space-x-2 text-sm font-medium text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/5"
+                  className="relative flex items-center px-4 py-2 space-x-2 text-sm font-medium text-gray-700 transition-all duration-300 dark:text-gray-300 rounded-xl hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5"
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.label}</span>
@@ -109,10 +116,10 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
                   key={item.to}
                   to={item.to!}
                   className={({ isActive }) =>
-                    `relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
+                    `relative flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                       isActive
-                        ? "text-white bg-white/10"
-                        : "text-gray-300 hover:text-white hover:bg-white/5"
+                        ? "text-gray-900 dark:text-white bg-gray-200 dark:bg-white/10"
+                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5"
                     }`
                   }
                 >
@@ -127,7 +134,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
           <div className="items-center hidden space-x-2 md:flex">
             <motion.button
               onClick={onToggleTheme}
-              className="p-2.5 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/10"
+              className="p-2.5 rounded-xl text-gray-700 dark:text-gray-300 transition-all duration-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/10"
               whileHover={{ scale: 1.1, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -136,7 +143,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
 
             <motion.button
               onClick={() => navigate("/settings")}
-              className="p-2.5 text-gray-300 transition-all duration-300 rounded-xl hover:text-white hover:bg-white/10"
+              className="p-2.5 rounded-xl text-gray-700 dark:text-gray-300 transition-all duration-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/10"
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -148,7 +155,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
           <div className="md:hidden">
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-gray-300 transition-colors rounded-xl hover:text-white hover:bg-white/10"
+              className="p-2 text-gray-700 transition-colors rounded-xl dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/10"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -165,7 +172,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-white/10 bg-black/50 backdrop-blur-md md:hidden"
+            className="border-t border-gray-200 dark:border-white/10 bg-white/90 dark:bg-black/50 backdrop-blur-md md:hidden"
           >
             <div className="px-4 py-4 space-y-2">
               {navItems.map((item) =>
@@ -185,8 +192,8 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
                     className={({ isActive }) =>
                       `w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ${
                         isActive
-                          ? "text-white bg-white/10"
-                          : "text-gray-300 hover:text-white hover:bg-white/5"
+                          ? "text-gray-900 dark:text-white bg-gray-200 dark:bg-white/10"
+                          : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5"
                       }`
                     }
                     onClick={() => setIsOpen(false)}
@@ -197,7 +204,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, onToggleTheme }) => {
                 )
               )}
 
-              <div className="pt-2 mt-4 space-y-1 border-t border-white/10">
+              <div className="pt-2 mt-4 space-y-1 border-t border-gray-200 dark:border-white/10">
                 <MenuButton
                   label="Toggle Theme"
                   icon={isDark ? Sun : Moon}

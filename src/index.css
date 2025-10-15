@@ -12,8 +12,18 @@ html {
 }
 
 body {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(circle, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    radial-gradient(circle, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-position: 0 0, 25px 25px;
+  background-size: 50px 50px;
+  color: #1a1a1a;
+}
+
+.dark body {
   background-color: #0c0c0c;
-  background-image: 
+  background-image:
     radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-position: 0 0, 25px 25px;
@@ -27,6 +37,10 @@ body {
 }
 
 ::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+.dark ::-webkit-scrollbar-track {
   background: #1a1a1a;
 }
 
@@ -44,10 +58,15 @@ body {
   font-family: 'Amiri', 'Times New Roman', serif;
   font-size: 1.8rem;
   line-height: 3rem;
-  color: #ffffff;
-  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+  color: #1a1a1a;
+  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
   font-weight: 400;
   letter-spacing: 0.02em;
+}
+
+.dark .font-arabic {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
 }
 
 /* Glassmorphism effect */
@@ -167,5 +186,9 @@ input:focus-visible {
 /* Selection styles */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
+  color: #1a1a1a;
+}
+
+.dark ::selection {
   color: #ffffff;
 }

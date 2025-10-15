@@ -23,10 +23,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   const [transliterationData, setTransliterationData] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
-  const [bookmarks, setBookmarks] = useLocalStorage<Bookmark[]>(
-    "bookmarks",
-    []
-  );
+  const [bookmarks, setBookmarks] = useLocalStorage<Bookmark[]>("bookmarks", []);
   const [, setLastRead] = useLocalStorage<LastRead | null>("lastRead", null);
 
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -42,7 +39,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   const arabicFontMap = {
     small: "text-xl sm:text-2xl",
     medium: "text-2xl sm:text-3xl",
-    large: "text-3xl sm:text-4xl", // уменьшено ещё на одну ступень
+    large: "text-3xl sm:text-4xl",
   };
 
   const translationFontMap = {
@@ -52,8 +49,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   };
 
   const arabicFontClass = arabicFontMap[settings.fontSize] || "text-4xl";
-  const translationFontClass =
-    translationFontMap[settings.fontSize] || "text-base";
+  const translationFontClass = translationFontMap[settings.fontSize] || "text-base";
 
   // Загружаем суру
   useEffect(() => {
@@ -77,7 +73,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
     loadSurah();
   }, [surahNumber, settings.translation]);
 
-  // Сохраняем первый аят как LastRead при загрузке
+// Сохраняем первый аят как LastRead при загрузке
   // Скролл при переходе с LastRead, Bookmarks или через #ayah-N
   useEffect(() => {
     if (!surahData) return;
@@ -238,9 +234,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   const handleToggleBookmark = (bookmark: Bookmark) => {
     setBookmarks((prev) => {
       const isBookmarked = prev.some(
-        (b) =>
-          b.surahNumber === bookmark.surahNumber &&
-          b.ayahNumber === bookmark.ayahNumber
+        (b) => b.surahNumber === bookmark.surahNumber && b.ayahNumber === bookmark.ayahNumber
       );
       return isBookmarked
         ? prev.filter(
@@ -255,19 +249,17 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
   };
 
   const isBookmarked = (ayahNumber: number) =>
-    bookmarks.some(
-      (b) => b.surahNumber === surahNumber && b.ayahNumber === ayahNumber
-    );
+    bookmarks.some((b) => b.surahNumber === surahNumber && b.ayahNumber === ayahNumber);
 
   if (loading) return <SurahSkeleton />;
 
   if (!surahData || !translationData) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-[#0A0A0A]"> {/* ✅ */}
         <p className="mb-4 text-red-500">Ошибка загрузки суры</p>
         <button
           onClick={() => navigate("/")}
-          className="flex items-center px-4 py-2 text-gray-200 transition bg-gray-700 rounded-lg hover:bg-gray-600"
+          className="flex items-center px-4 py-2 text-gray-800 transition bg-gray-200 rounded-lg dark:text-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
         >
           <ArrowLeft className="w-4 h-4 mr-2" /> Назад
         </button>
@@ -279,15 +271,15 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-full p-6 pt-20 mx-auto bg-[#0A0A0A] min-h-screen"
+      className="max-w-full p-6 pt-20 mx-auto min-h-screen transition-colors duration-300 bg-white text-gray-900 dark:bg-[#0A0A0A] dark:text-gray-100" // ✅
     >
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1 className="mb-2 text-3xl font-bold text-white">{surahData.name}</h1>
-        <div className="text-gray-400">
+        <h1 className="mb-2 text-3xl font-bold">{surahData.name}</h1> {/* ✅ */}
+        <div className="text-gray-500 dark:text-gray-400">
           {surahData.englishName} — {surahData.englishNameTranslation}
         </div>
-        <div className="mt-2 text-sm text-gray-500">
+        <div className="mt-2 text-sm text-gray-400 dark:text-gray-500">
           {surahData.numberOfAyahs} аятов
         </div>
       </div>
@@ -298,10 +290,7 @@ export const SurahPage: React.FC<SurahPageProps> = ({ settings }) => {
           const transliteration = transliterationData[ayahKey] || "";
 
           return (
-            <div
-              key={ayah.number}
-              className="w-full sm:w-11/12 md:w-3/4 lg:w-2/3"
-            >
+            <div key={ayah.number} className="w-full sm:w-11/12 md:w-3/4 lg:w-2/3">
               <AyahCard
                 ayah={{ ...ayah, transliteration }}
                 translation={translationData.ayahs[index]}

@@ -83,13 +83,13 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
       transition={{ duration: 0.4 }}
       className={`relative rounded-xl p-6 sm:p-8 transition-all duration-500 shadow-lg border ${
         isThisPlaying
-          ? "border-[#c0c0c0]/60 bg-gradient-to-br from-[#1a1818] to-[#0f0e0e]"
-          : "border-[#1a1818] bg-[#0f0e0e]"
+          ? "border-blue-400 dark:border-[#c0c0c0]/60 bg-gradient-to-br from-blue-50 to-white dark:from-[#1a1818] dark:to-[#0f0e0e]"
+          : "border-gray-200 dark:border-[#1a1818] bg-white dark:bg-[#0f0e0e]"
       }`}
     >
       {/* Индикатор проигрывания */}
       {isThisPlaying && (
-        <div className="absolute top-0 left-0 right-0 h-1 bg-[#c0c0c0]/70 rounded-t-xl"></div>
+        <div className="absolute top-0 left-0 right-0 h-1 bg-blue-400 dark:bg-[#c0c0c0]/70 rounded-t-xl"></div>
       )}
 
       {/* Верхняя часть: номер и кнопки */}
@@ -99,8 +99,8 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
           <div
             className={`flex items-center justify-center w-10 h-10 rounded-lg text-sm font-bold border ${
               isThisPlaying
-                ? "bg-[#1a1818] text-[#c0c0c0] border-[#c0c0c0]"
-                : "bg-[#0f0e0e] text-gray-400 border-[#1a1818]"
+                ? "bg-blue-50 dark:bg-[#1a1818] text-blue-600 dark:text-[#c0c0c0] border-blue-400 dark:border-[#c0c0c0]"
+                : "bg-gray-100 dark:bg-[#0f0e0e] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-[#1a1818]"
             }`}
           >
             {ayah.numberInSurah}
@@ -109,7 +109,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2 text-sm font-medium text-[#c0c0c0]"
+              className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-[#c0c0c0]"
             >
               <Volume2 className="w-4 h-4" />
               Now Playing
@@ -132,8 +132,8 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
             }
             className={`p-2.5 rounded-lg transition-all ${
               isBookmarked
-                ? "text-[#c0c0c0] bg-[#c0c0c0]/20 hover:bg-[#c0c0c0]/30"
-                : "text-gray-400 hover:text-[#c0c0c0] hover:bg-[#c0c0c0]/10"
+                ? "text-blue-600 dark:text-[#c0c0c0] bg-blue-100 dark:bg-[#c0c0c0]/20 hover:bg-blue-200 dark:hover:bg-[#c0c0c0]/30"
+                : "text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-[#c0c0c0] hover:bg-blue-100 dark:hover:bg-[#c0c0c0]/10"
             }`}
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.9 }}
@@ -146,7 +146,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
           {/* Copy */}
           <motion.button
             onClick={handleCopy}
-            className="p-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-[#c0c0c0]/10 transition-all relative"
+            className="p-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#c0c0c0]/10 transition-all relative"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -158,7 +158,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
                 >
-                  <Check className="w-5 h-5 text-[#c0c0c0]" />
+                  <Check className="w-5 h-5 text-blue-600 dark:text-[#c0c0c0]" />
                 </motion.div>
               ) : (
                 <motion.div
@@ -177,7 +177,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
           {isThisPlaying ? (
             <motion.button
               onClick={onStop}
-              className="p-2.5 rounded-lg text-red-400 bg-red-500/20 hover:bg-red-500/30 transition-all"
+              className="p-2.5 rounded-lg text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-500/20 hover:bg-red-200 dark:hover:bg-red-500/30 transition-all"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -186,7 +186,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
           ) : (
             <motion.button
               onClick={onPlay}
-              className="p-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-[#c0c0c0]/10 transition-all"
+              className="p-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#c0c0c0]/10 transition-all"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -210,7 +210,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
         {/* Транскрипция */}
         {ayah.transliteration && (
           <p
-            className={`text-[#c0c0c0]/80 italic leading-relaxed ${
+            className={`text-gray-600 dark:text-[#c0c0c0]/80 italic leading-relaxed ${
               translationFontClass || "text-base"
             }`}
           >
@@ -220,7 +220,7 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
 
         {/* Перевод */}
         <p
-          className={`text-gray-300 leading-relaxed ${
+          className={`text-gray-700 dark:text-gray-300 leading-relaxed ${
             translationFontClass || "text-base"
           }`}
         >
@@ -229,13 +229,13 @@ ${ayah.transliteration ? `\n${ayah.transliteration}` : ""}
       </div>
 
       {/* Метаданные */}
-      <div className="flex items-center justify-between pt-4 mt-4 text-xs text-gray-500 border-t border-[#1a1818]">
+      <div className="flex items-center justify-between pt-4 mt-4 text-xs text-gray-500 dark:text-gray-500 border-t border-gray-200 dark:border-[#1a1818]">
         <div className="flex items-center gap-4">
           <span>Juz {ayah.juz}</span>
           <span>Page {ayah.page}</span>
         </div>
         <div className="flex items-center gap-1">
-          <Hash className="w-3 h-3 text-[#c0c0c0]" />
+          <Hash className="w-3 h-3 text-blue-600 dark:text-[#c0c0c0]" />
           <span>{ayah.number}</span>
         </div>
       </div>

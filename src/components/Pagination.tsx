@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface PaginationProps {
   currentPage: number;
@@ -22,8 +22,8 @@ export const Pagination: React.FC<PaginationProps> = ({
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 480);
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   if (totalPages <= 1) return null;
@@ -33,12 +33,16 @@ export const Pagination: React.FC<PaginationProps> = ({
     const range = [];
     const rangeWithDots = [];
 
-    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+    for (
+      let i = Math.max(2, currentPage - delta);
+      i <= Math.min(totalPages - 1, currentPage + delta);
+      i++
+    ) {
       range.push(i);
     }
 
     if (currentPage - delta > 2) {
-      rangeWithDots.push(1, '...');
+      rangeWithDots.push(1, "...");
     } else {
       rangeWithDots.push(1);
     }
@@ -46,7 +50,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     rangeWithDots.push(...range);
 
     if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
+      rangeWithDots.push("...", totalPages);
     } else {
       rangeWithDots.push(totalPages);
     }
@@ -60,19 +64,21 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-y-0">
-      <div className="text-sm text-gray-400">
+      <div className="text-sm text-gray-600 dark:text-gray-400">
         Showing {startItem}-{endItem} of {totalItems} chapters
       </div>
 
       <div className="flex items-center justify-center space-x-2">
+        {/* Prev */}
         <motion.button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`flex items-center px-2 sm:px-3 py-1 sm:py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
-            currentPage === 1
-              ? 'text-gray-500 cursor-not-allowed'
-              : 'text-gray-300 hover:text-white hover:bg-white/10'
-          }`}
+          className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300
+            ${
+              currentPage === 1
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
+            }`}
           whileHover={currentPage !== 1 ? { scale: 1.05 } : {}}
           whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
         >
@@ -80,11 +86,15 @@ export const Pagination: React.FC<PaginationProps> = ({
           Prev
         </motion.button>
 
+        {/* Pages */}
         <div className="flex items-center justify-center space-x-1">
           {visiblePages.map((page, index) => {
-            if (page === '...') {
+            if (page === "...") {
               return (
-                <div key={`dots-${index}`} className="px-1 py-1 text-gray-500 sm:px-2 sm:py-2">
+                <div
+                  key={`dots-${index}`}
+                  className="px-2 py-2 text-gray-500 dark:text-gray-500"
+                >
                   <MoreHorizontal className="w-4 h-4" />
                 </div>
               );
@@ -97,11 +107,12 @@ export const Pagination: React.FC<PaginationProps> = ({
               <motion.button
                 key={pageNumber}
                 onClick={() => onPageChange(pageNumber)}
-                className={`px-2 sm:px-3 py-1 sm:py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? 'text-white bg-white/10'
-                    : 'text-gray-300 hover:text-white hover:bg-white/10'
-                }`}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                  ${
+                    isActive
+                      ? "text-white bg-gray-800 dark:bg-white/10"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white"
+                  }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -111,14 +122,16 @@ export const Pagination: React.FC<PaginationProps> = ({
           })}
         </div>
 
+        {/* Next */}
         <motion.button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`flex items-center px-2 sm:px-3 py-1 sm:py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
-            currentPage === totalPages
-              ? 'text-gray-500 cursor-not-allowed'
-              : 'text-gray-300 hover:text-white hover:bg-white/10'
-          }`}
+          className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300
+            ${
+              currentPage === totalPages
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
+            }`}
           whileHover={currentPage !== totalPages ? { scale: 1.05 } : {}}
           whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}
         >

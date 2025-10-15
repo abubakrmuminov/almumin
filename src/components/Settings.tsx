@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Globe,
@@ -44,31 +44,16 @@ export const Settings: React.FC<SettingsProps> = ({
     { id: "ar.dossari", name: "Yasser Ad-Dossari" },
   ];
 
-  const fontSizes: {
-    id: "small" | "medium" | "large";
-    name: string;
-    value: number;
-  }[] = [
+  const fontSizes = [
     { id: "small", name: "Small", value: 18 },
     { id: "medium", name: "Medium", value: 24 },
     { id: "large", name: "Large", value: 32 },
-  ];
+  ] as const;
 
   const themes = [
     { id: "light", name: "Light", icon: <Sun className="w-5 h-5" /> },
     { id: "dark", name: "Dark", icon: <Moon className="w-5 h-5" /> },
   ];
-
-  const resetToDefaults = () => {
-    onSettingsChange({
-      translation: "en.asad",
-      reciter: "ar.alafasy",
-      fontSize: "medium",
-      fontSizeValue: defaultFontSize["medium"],
-      theme: "dark",
-    });
-    setShowModal(false);
-  };
 
   const defaultFontSize: Record<"small" | "medium" | "large", number> = {
     small: 18,
@@ -76,27 +61,52 @@ export const Settings: React.FC<SettingsProps> = ({
     large: 32,
   };
 
+  const resetToDefaults = () => {
+    onSettingsChange({
+      translation: "en.asad",
+      reciter: "ar.alafasy",
+      fontSize: "medium",
+      fontSizeValue: defaultFontSize["medium"],
+      theme: "light",
+    });
+    document.documentElement.classList.remove("dark");
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (settings.theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [settings.theme]);
+
   return (
-    <div className="min-h-screen px-4 pt-20 pb-12 bg-black sm:px-6 lg:px-8">
+    <div className="min-h-screen px-4 pt-20 pb-12 transition-colors duration-300 bg-gray-50 dark:bg-gray-950 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-10 text-center"
         >
-          <h1 className="mb-2 text-4xl font-bold text-white">Settings</h1>
-          <p className="text-gray-400">Customize your reading experience</p>
+          <h1 className="mb-2 text-4xl font-bold text-gray-900 dark:text-white">
+            Settings
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Customize your reading experience
+          </p>
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
+          {/* Translation */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="p-6 border border-gray-800 bg-gradient-to-br from-gray-900 to-black rounded-xl"
+            className="p-6 transition-colors bg-gray-100 border border-gray-200 dark:border-gray-800 dark:bg-gray-900 rounded-xl"
           >
-            <h2 className="flex items-center mb-4 text-xl font-bold text-white">
-              <Globe className="w-6 h-6 mr-3 text-gray-300" />
+            <h2 className="flex items-center mb-4 text-xl font-bold text-gray-900 dark:text-white">
+              <Globe className="w-6 h-6 mr-3 text-gray-600 dark:text-gray-300" />
               Translation
             </h2>
             <div className="space-y-2">
@@ -107,12 +117,11 @@ export const Settings: React.FC<SettingsProps> = ({
                     key={tItem.id}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`flex items-center justify-between cursor-pointer px-4 py-3 transition-all duration-300 ${
+                    className={`flex items-center justify-between cursor-pointer px-4 py-3 transition-all duration-300 rounded-md ${
                       active
-                        ? "bg-gray-800 border-2 border-gray-300 text-white"
-                        : "bg-gray-900/50 border-2 border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white"
+                        ? "bg-gray-800 text-white border border-gray-600"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-white"
                     }`}
-                    style={{ borderRadius: "0.5rem" }}
                   >
                     <input
                       type="radio"
@@ -124,31 +133,11 @@ export const Settings: React.FC<SettingsProps> = ({
                       }
                       className="sr-only"
                     />
-                    <div className="flex items-center space-x-3">
-                      <div
-                        className={`w-5 h-5 border-2 flex items-center justify-center transition-all ${
-                          active
-                            ? "border-gray-300 bg-gray-300"
-                            : "border-gray-600"
-                        }`}
-                        style={{ borderRadius: "0.25rem" }}
-                      >
-                        {active && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="w-3 h-3 bg-black"
-                          ></motion.div>
-                        )}
-                      </div>
-                      <div>
-                        <span className="block font-semibold">
-                          {tItem.name}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {tItem.language}
-                        </span>
-                      </div>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{tItem.name}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {tItem.language}
+                      </span>
                     </div>
                   </motion.label>
                 );
@@ -156,14 +145,15 @@ export const Settings: React.FC<SettingsProps> = ({
             </div>
           </motion.div>
 
+          {/* Reciter */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="p-6 border border-gray-800 bg-gradient-to-br from-gray-900 to-black rounded-xl"
+            className="p-6 transition-colors bg-gray-100 border border-gray-200 dark:border-gray-800 dark:bg-gray-900 rounded-xl"
           >
-            <h2 className="flex items-center mb-4 text-xl font-bold text-white">
-              <Volume2 className="w-6 h-6 mr-3 text-gray-300" />
+            <h2 className="flex items-center mb-4 text-xl font-bold text-gray-900 dark:text-white">
+              <Volume2 className="w-6 h-6 mr-3 text-gray-600 dark:text-gray-300" />
               Reciter
             </h2>
             <div className="space-y-2">
@@ -174,12 +164,11 @@ export const Settings: React.FC<SettingsProps> = ({
                     key={rItem.id}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`flex items-center cursor-pointer px-4 py-3 transition-all duration-300 ${
+                    className={`flex items-center cursor-pointer px-4 py-3 transition-all duration-300 rounded-md ${
                       active
-                        ? "bg-gray-800 border-2 border-gray-300 text-white"
-                        : "bg-gray-900/50 border-2 border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white"
+                        ? "bg-gray-800 text-white border border-gray-600"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-white"
                     }`}
-                    style={{ borderRadius: "0.5rem" }}
                   >
                     <input
                       type="radio"
@@ -189,39 +178,22 @@ export const Settings: React.FC<SettingsProps> = ({
                       onChange={() => handleSettingChange("reciter", rItem.id)}
                       className="sr-only"
                     />
-                    <div className="flex items-center space-x-3">
-                      <div
-                        className={`w-5 h-5 border-2 flex items-center justify-center transition-all ${
-                          active
-                            ? "border-gray-300 bg-gray-300"
-                            : "border-gray-600"
-                        }`}
-                        style={{ borderRadius: "0.25rem" }}
-                      >
-                        {active && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="w-3 h-3 bg-black"
-                          ></motion.div>
-                        )}
-                      </div>
-                      <span className="font-semibold">{rItem.name}</span>
-                    </div>
+                    <span className="font-semibold">{rItem.name}</span>
                   </motion.label>
                 );
               })}
             </div>
           </motion.div>
 
+          {/* Font Size */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="p-6 border border-gray-800 bg-gradient-to-br from-gray-900 to-black rounded-xl"
+            className="p-6 transition-colors bg-gray-100 border border-gray-200 dark:border-gray-800 dark:bg-gray-900 rounded-xl"
           >
-            <h2 className="flex items-center mb-4 text-xl font-bold text-white">
-              <Type className="w-6 h-6 mr-3 text-gray-300" />
+            <h2 className="flex items-center mb-4 text-xl font-bold text-gray-900 dark:text-white">
+              <Type className="w-6 h-6 mr-3 text-gray-600 dark:text-gray-300" />
               Font Size
             </h2>
             <div className="flex gap-3">
@@ -239,16 +211,15 @@ export const Settings: React.FC<SettingsProps> = ({
                         fontSizeValue: fItem.value,
                       })
                     }
-                    className={`flex-1 px-4 py-3 font-semibold transition-all duration-300 border-2 ${
+                    className={`flex-1 px-4 py-3 font-semibold transition-all duration-300 rounded-md ${
                       active
-                        ? "bg-gray-800 border-gray-300 text-white"
-                        : "bg-gray-900/50 border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white"
+                        ? "bg-gray-800 text-white border border-gray-600"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-white"
                     }`}
-                    style={{ borderRadius: "0.5rem" }}
                   >
                     <div className="text-center">
                       <div className="text-lg">{fItem.name}</div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
                         {fItem.value}px
                       </div>
                     </div>
@@ -258,14 +229,15 @@ export const Settings: React.FC<SettingsProps> = ({
             </div>
           </motion.div>
 
+          {/* Theme */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="p-6 border border-gray-800 bg-gradient-to-br from-gray-900 to-black rounded-xl"
+            className="p-6 transition-colors bg-gray-100 border border-gray-200 dark:border-gray-800 dark:bg-gray-900 rounded-xl"
           >
-            <h2 className="flex items-center mb-4 text-xl font-bold text-white">
-              <Palette className="w-6 h-6 mr-3 text-gray-300" />
+            <h2 className="flex items-center mb-4 text-xl font-bold text-gray-900 dark:text-white">
+              <Palette className="w-6 h-6 mr-3 text-gray-600 dark:text-gray-300" />
               Theme
             </h2>
             <div className="flex gap-3">
@@ -277,14 +249,13 @@ export const Settings: React.FC<SettingsProps> = ({
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleSettingChange("theme", themeItem.id)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 font-semibold transition-all duration-300 border-2 ${
+                    className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 font-semibold transition-all duration-300 rounded-md ${
                       active
-                        ? "bg-gray-800 border-gray-300 text-white"
-                        : "bg-gray-900/50 border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white"
+                        ? "bg-gray-800 text-white border border-gray-600"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-white"
                     }`}
-                    style={{ borderRadius: "0.5rem" }}
                   >
-                    <span className="text-xl">{themeItem.icon}</span>
+                    {themeItem.icon}
                     <span>{themeItem.name}</span>
                   </motion.button>
                 );
@@ -293,26 +264,28 @@ export const Settings: React.FC<SettingsProps> = ({
           </motion.div>
         </div>
 
+        {/* Preview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="p-8 mt-8 text-center border border-gray-800 bg-gradient-to-br from-gray-900 to-black rounded-xl"
+          className="p-8 mt-8 text-center transition-colors bg-gray-200 border border-gray-300 dark:border-gray-800 dark:bg-gray-900 rounded-xl"
         >
-          <p className="mb-2 text-sm font-semibold tracking-wider text-gray-400 uppercase">
+          <p className="mb-2 text-sm font-semibold tracking-wider text-gray-600 uppercase dark:text-gray-400">
             Preview
           </p>
           <p
             style={{ fontSize: `${settings.fontSizeValue}px` }}
-            className="mb-4 text-white font-arabic"
+            className="mb-4 text-gray-900 dark:text-gray-100 font-arabic"
           >
             بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
           </p>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-700 dark:text-gray-400">
             In the name of Allah, the Beneficent, the Merciful
           </p>
         </motion.div>
 
+        {/* Reset */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -323,13 +296,15 @@ export const Settings: React.FC<SettingsProps> = ({
             onClick={() => setShowModal(true)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-6 py-3 font-semibold text-gray-300 transition-all duration-300 border-2 border-gray-600 rounded hover:bg-gray-800 hover:border-gray-500"
+            className="flex items-center gap-2 px-6 py-3 font-semibold text-gray-700 border border-gray-400 rounded-md dark:text-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"
           >
             <RotateCcw className="w-5 h-5" />
             Reset to Defaults
           </motion.button>
         </motion.div>
       </div>
+
+      {/* Confirm Reset Modal */}
       <AnimatePresence>
         {showModal && (
           <motion.div
@@ -342,29 +317,29 @@ export const Settings: React.FC<SettingsProps> = ({
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="w-11/12 max-w-md p-6 bg-gray-900 border border-gray-600 rounded-xl"
+              className="w-11/12 max-w-md p-6 transition-colors bg-gray-100 border border-gray-400 dark:bg-gray-900 dark:border-gray-700 rounded-xl"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-300">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-200">
                   Confirm Reset
                 </h3>
                 <button onClick={() => setShowModal(false)}>
-                  <X className="w-5 h-5 text-gray-400 hover:text-gray-300" />
+                  <X className="w-5 h-5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" />
                 </button>
               </div>
-              <p className="mb-6 text-gray-400">
+              <p className="mb-6 text-gray-700 dark:text-gray-400">
                 Are you sure you want to reset all settings to default?
               </p>
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 font-semibold text-gray-400 border border-gray-600 rounded hover:bg-gray-800"
+                  className="px-4 py-2 font-semibold text-gray-700 border border-gray-400 rounded dark:text-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={resetToDefaults}
-                  className="px-4 py-2 font-semibold text-gray-300 bg-gray-700 rounded hover:bg-gray-600"
+                  className="px-4 py-2 font-semibold text-white bg-gray-800 rounded hover:bg-gray-700"
                 >
                   Confirm
                 </button>

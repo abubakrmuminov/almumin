@@ -89,11 +89,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
   );
 
   return (
-    <div className="min-h-screen pt-16 text-white bg-black">
+    <div className="min-h-screen pt-16 text-gray-900 dark:text-white bg-white dark:bg-black">
       {/* Header */}
       <div className="relative z-10 px-6 py-8 text-center">
         <motion.h1
-          className="text-5xl font-bold text-center text-gray-300 sm:text-6xl"
+          className="text-5xl font-bold text-center text-gray-700 dark:text-gray-300 sm:text-6xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -109,7 +109,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                 state: { fromLastRead: true },
               })
             }
-            className="flex items-center px-4 py-2 space-x-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400"
+            className="flex items-center px-4 py-2 space-x-2 text-white bg-gray-800 dark:text-black dark:bg-gray-300 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-400"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -119,7 +119,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
 
           <motion.button
             onClick={() => setSearchOpen(true)}
-            className="flex items-center px-4 py-2 space-x-2 text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
+            className="flex items-center px-4 py-2 space-x-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -129,7 +129,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
 
           <motion.button
             onClick={() => navigate("/bookmarks")}
-            className="flex items-center px-4 py-2 space-x-2 text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
+            className="flex items-center px-4 py-2 space-x-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -142,20 +142,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
           {/* Last Read */}
           {lastRead && (
             <div className="w-full max-w-3xl">
-              <div className="p-6 border border-gray-800 shadow-lg bg-black/90 rounded-2xl">
-                <span className="text-xs text-gray-400 uppercase">
+              <div className="p-6 border border-gray-200 dark:border-gray-800 shadow-lg bg-white dark:bg-black/90 rounded-2xl">
+                <span className="text-xs text-gray-500 dark:text-gray-400 uppercase">
                   Last Read
                 </span>
                 <div className="flex items-center justify-between mt-2">
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       {lastRead.surahName}
                     </h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Ayah {lastRead.ayahNumber}
                     </p>
                     {lastRead.date && (
-                      <p className="mt-1 text-xs text-gray-500">
+                      <p className="mt-1 text-xs text-gray-500 dark:text-gray-500">
                         {new Date(lastRead.date).toLocaleDateString()}
                       </p>
                     )}
@@ -169,7 +169,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                         },
                       })
                     }
-                    className="flex items-center justify-center px-3 py-2 text-black transition-all bg-gray-300 rounded-lg hover:bg-gray-400"
+                    className="flex items-center justify-center px-3 py-2 text-white dark:text-black transition-all bg-gray-800 dark:bg-gray-300 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-400"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -184,14 +184,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
           {/* Ayah of the Day */}
           {ayahOfTheDay && (
             <div className="w-full max-w-3xl">
-              <div className="p-6 border border-gray-800 shadow-lg bg-black/90 rounded-2xl">
-                <span className="text-xs text-gray-400 uppercase">
+              <div className="p-6 border border-gray-200 dark:border-gray-800 shadow-lg bg-white dark:bg-black/90 rounded-2xl">
+                <span className="text-xs text-gray-500 dark:text-gray-400 uppercase">
                   Ayah of the Day
                 </span>
-                <p className="mt-2 mb-4 text-lg italic text-center text-white">
+                <p className="mt-2 mb-4 text-lg italic text-center text-gray-900 dark:text-white">
                   “{ayahOfTheDay.text}”
                 </p>
-                <p className="text-sm text-center text-gray-400">
+                <p className="text-sm text-center text-gray-600 dark:text-gray-400">
                   {ayahOfTheDay.surah.englishName} ({ayahOfTheDay.surah.name}) —
                   Ayah {ayahOfTheDay.numberInSurah}
                 </p>
@@ -205,7 +205,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
               href="https://namaz.mumin.ink"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center px-5 py-2.5 space-x-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400 transition-all"
+              className="flex items-center px-5 py-2.5 space-x-2 text-white dark:text-black bg-gray-800 dark:bg-gray-300 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-400 transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -227,14 +227,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-start justify-center p-6 bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-start justify-center p-6 bg-black/70 dark:bg-black/70 backdrop-blur-sm"
         >
           <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -50, opacity: 0 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            className="w-full max-w-2xl p-6 shadow-lg bg-black/80 rounded-2xl"
+            className="w-full max-w-2xl p-6 shadow-lg bg-white dark:bg-black/80 rounded-2xl"
           >
             <div className="flex items-center mb-4 space-x-2">
               <input
@@ -242,11 +242,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                 placeholder="Search chapters..."
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
-                className="w-full p-3 text-white bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400"
+                className="w-full p-3 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400"
               />
               <motion.button
                 onClick={() => setSearchOpen(false)}
-                className="px-3 py-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400"
+                className="px-3 py-2 text-white dark:text-black bg-gray-800 dark:bg-gray-300 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-400"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -258,7 +258,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
               {filteredSurahs.map((surah) => (
                 <motion.div
                   key={surah.number}
-                  className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-700"
+                  className="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                   onClick={() => {
                     navigate(`/surah/${surah.number}`);
                     setSearchOpen(false);
@@ -268,13 +268,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ settings }) => {
                   transition={{ delay: 0.05 }}
                 >
                   <span>{surah.englishName}</span>
-                  <span className="text-sm text-gray-400">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
                     {surah.numberOfAyahs} ayahs
                   </span>
                 </motion.div>
               ))}
               {filteredSurahs.length === 0 && (
-                <p className="py-4 text-center text-gray-400">
+                <p className="py-4 text-center text-gray-600 dark:text-gray-400">
                   No results found
                 </p>
               )}

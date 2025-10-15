@@ -14,7 +14,7 @@ function App() {
     translation: "en.asad",
     reciter: "ar.alafasy",
     fontSize: "medium",
-    theme: "dark",
+    theme: "light",
     fontSizeValue: 24,
   });
 
